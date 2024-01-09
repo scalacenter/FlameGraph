@@ -431,6 +431,14 @@ sub color {
 		my $b = 190 + int(55 * $v2);
 		return "rgb($r,$g,$b)";
 	}
+	if (defined $type and $type eq "scala-compilation") {
+        if ($name =~ m:_\[i\]$:) {      # macro
+            return $type = "rgb(0,199,169)";
+        } else {                        # normal scala code
+            $type = "green";
+        }
+        # fall-through to color palettes
+    }
 
 	# multi palettes
 	if (defined $type and $type eq "java") {
