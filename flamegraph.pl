@@ -247,7 +247,7 @@ if ($bgcolors eq "") {
 	# choose a default
 	if ($colors eq "mem") {
 		$bgcolors = "green";
-	} elsif ($colors =~ /^(io|wakeup|chain)$/) {
+	} elsif ($colors =~ /^(io|wakeup|chain)$/ or $colors eq "scala-compilation") {
 		$bgcolors = "blue";
 	} elsif ($colors =~ /^(red|green|blue|aqua|yellow|purple|orange)$/) {
 		$bgcolors = "grey";
@@ -431,6 +431,16 @@ sub color {
 		my $b = 190 + int(55 * $v2);
 		return "rgb($r,$g,$b)";
 	}
+	if (defined $type and $type eq "scala-compilation") {
+        if ($name =~ m:_\[i\]$:) {          # macro
+            return $type = "rgb(0,199,169)";
+        } elsif ($name =~ m:_\[j\]$:) {     # macro failure
+            $type = "red";
+        } else {                            # normal scala code
+            $type = "green";
+        }
+        # fall-through to color palettes
+    }
 
 	# multi palettes
 	if (defined $type and $type eq "java") {
